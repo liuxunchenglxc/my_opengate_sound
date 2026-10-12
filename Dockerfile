@@ -25,6 +25,9 @@ RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y && \
     cargo build --release --features flac && \
     ls -al target/release && \
     cp target/release/opengate /usr/local/bin/opengate && \
+    cp target/release/opengate-download-models /usr/local/bin/opengate-download-models &&\
+    cp target/release/opengate-spectral-analysis /usr/local/bin/opengate-spectral-analysis && \
+    cp target/release/opengate-tts /usr/local/bin/opengate-tts && \
     opengate-download-models --all && \
     opengate ./beats/meditation_delta.yaml -o meditation_delta.flac && \
     opengate ./openstates/001_liminal_state.yaml -o liminal_state.flac && \
