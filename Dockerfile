@@ -9,6 +9,7 @@ RUN xbps-install -Suy git uv bash curl iproute2 \
 # RUN uv pip install --system --break-system-packages --no-cache-dir -r requirements.txt
 
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y && \
+    source $HOME/.cargo/env && \
     git clone --depth 1 https://github.com/savageogre/opengate.git && \
     cd opengate && \
     cargo build --release --features flac && \
