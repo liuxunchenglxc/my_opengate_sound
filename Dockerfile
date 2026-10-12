@@ -4,6 +4,7 @@ RUN xbps-install -Suy git uv bash curl iproute2 \
     libxcb libglvnd glib \
     libflac-devel \
     base-devel \
+    openssl \
     && xbps-remove -Oo
 
 # COPY requirements.txt .
