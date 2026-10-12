@@ -6,6 +6,7 @@ RUN xbps-install -Suy git uv bash curl iproute2 \
     base-devel \
     openssl-devel \
     pkg-config \
+    tar gzip \
     && xbps-remove -Oo
 
 # COPY requirements.txt .
