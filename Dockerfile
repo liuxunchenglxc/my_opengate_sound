@@ -16,6 +16,8 @@ RUN xbps-install -Suy git uv bash curl iproute2 \
 # add cargo to path
 ENV PATH=/root/.cargo/bin:$PATH
 
+COPY piper-models.sh piper-models.sh
+
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y && \
     git clone --depth 1 https://github.com/savageogre/opengate.git && \
     curl -L "https://github.com/rhasspy/piper/releases/download/2023.11.14-2/piper_linux_x86_64.tar.gz" -o piper_linux_x86_64.tar.gz && \
@@ -23,6 +25,7 @@ RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y && \
     mv piper /usr/local/bin/piper && \
     chmod +x /usr/local/bin/piper && \
     rm piper_linux_x86_64.tar.gz && \
+    mv piper-models.sh opengate/piper-models.sh && \
     cd opengate && \
     cargo build --release --features flac && \
     ls -al target/release && \
