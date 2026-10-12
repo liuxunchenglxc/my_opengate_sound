@@ -20,6 +20,7 @@ RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y && \
     curl -L "https://github.com/rhasspy/piper/releases/download/2023.11.14-2/piper_linux_x86_64.tar.gz" -o piper_linux_x86_64.tar.gz && \
     tar -xzf piper_linux_x86_64.tar.gz && \
     mv piper /usr/local/bin/piper && \
+    chmod +x /usr/local/bin/piper && \
     rm piper_linux_x86_64.tar.gz && \
     cd opengate && \
     cargo build --release --features flac && \
@@ -28,6 +29,14 @@ RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y && \
     cp target/release/opengate-download-models /usr/local/bin/opengate-download-models &&\
     cp target/release/opengate-spectral-analysis /usr/local/bin/opengate-spectral-analysis && \
     cp target/release/opengate-tts /usr/local/bin/opengate-tts && \
+    chmod +x /usr/local/bin/opengate && \
+    chmod +x /usr/local/bin/opengate-download-models && \
+    chmod +x /usr/local/bin/opengate-spectral-analysis && \
+    chmod +x /usr/local/bin/opengate-tts && \
+    opengate --help && \
+    opengate-download-models --help && \
+    opengate-spectral-analysis --help && \
+    opengate-tts --help && \
     opengate-download-models --all && \
     opengate ./beats/meditation_delta.yaml -o meditation_delta.flac && \
     opengate ./openstates/001_liminal_state.yaml -o liminal_state.flac && \
