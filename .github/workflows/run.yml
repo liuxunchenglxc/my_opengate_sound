@@ -29,7 +29,7 @@ jobs:
           #   - 'requirements.txt'
           test:
             - 'test.sh'
-          #   - 'buzzheavier.py'
+            - 'get-required-models.sh'
           #   - 'scanner.py'
           action:
             - '.github/workflows/run.yml'
