@@ -80,7 +80,7 @@ jobs:
       )
 
     container:
-      image: ghcr.io/liuxunchenglxc/my_pymupdf_end2end:latest
+      image: ghcr.io/liuxunchenglxc/my_opengate_sound:latest
       options: --ipc=host
 
     steps:
