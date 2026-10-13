@@ -47,14 +47,16 @@ COPY --from=builder /usr/local/bin/opengate-download-models /usr/local/bin/openg
 COPY --from=builder /usr/local/bin/opengate-spectral-analysis /usr/local/bin/opengate-spectral-analysis
 COPY --from=builder /usr/local/bin/opengate-tts /usr/local/bin/opengate-tts
 
-RUN echo '#!/bin/bash\n\
-curl -L -o voices.json https://huggingface.co/rhasspy/piper-voices/resolve/main/voices.json\n\
-echo "The Support Models:"\n\
-jq -r 'keys[] | select(test("^(en|ja|zh)"))' voices.json\n\
-echo "Start to RUN:"\n\
-exec "$@"\n\
-' > /usr/local/bin/entrypoint.sh && \
-chmod +x /usr/local/bin/entrypoint.sh
+RUN <<EOF cat > /usr/local/bin/entrypoint.sh
+#!/bin/bash
+curl -L -o voices.json https://huggingface.co/rhasspy/piper-voices/resolve/main/voices.json
+echo "The Support Models:"
+jq -r 'keys[] | select(test("^(en|ja|zh)"))' voices.json
+echo "Start to RUN:"
+exec "$@"
+EOF
+
+RUN chmod +x /usr/local/bin/entrypoint.sh
 
 WORKDIR /workspace
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
