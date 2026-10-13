@@ -38,7 +38,7 @@ RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y && \
 # ==============================================================================
 FROM ghcr.io/void-linux/void-glibc:20261001r1 AS runner
 
-RUN xbps-install -Suy git bash libxcb libglvnd glib libflac openssl jq && \
+RUN xbps-install -Suy git bash libxcb libglvnd glib libflac openssl jq libespeak-ng && \
     xbps-remove -Oo
 
 COPY --from=builder /usr/local/bin/piper /usr/local/bin/piper
@@ -47,16 +47,4 @@ COPY --from=builder /usr/local/bin/opengate-download-models /usr/local/bin/openg
 COPY --from=builder /usr/local/bin/opengate-spectral-analysis /usr/local/bin/opengate-spectral-analysis
 COPY --from=builder /usr/local/bin/opengate-tts /usr/local/bin/opengate-tts
 
-RUN <<EOF cat > /usr/local/bin/entrypoint.sh
-#!/bin/bash
-curl -L -o voices.json https://huggingface.co/rhasspy/piper-voices/resolve/main/voices.json
-echo "The Support Models:"
-jq -r 'keys[] | select(test("^(en|ja|zh)"))' voices.json
-echo "Start to RUN:"
-exec "$@"
-EOF
-
-RUN chmod +x /usr/local/bin/entrypoint.sh
-
 WORKDIR /workspace
-ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
