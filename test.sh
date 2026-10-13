@@ -1,3 +1,4 @@
+bash get-required-models.sh test_models.txt
 git clone --depth 1 https://github.com/savageogre/opengate.git
 cd opengate
 echo "Test base functionality"
