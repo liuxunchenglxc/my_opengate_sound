@@ -1,6 +1,6 @@
 #!/bin/bash
 curl -L -o voices.json https://huggingface.co/rhasspy/piper-voices/resolve/main/voices.json
-echo "The Support Models:"
+echo "The Support Models of en, ja, zh:"
 jq -r 'keys[] | select(test("^(en|ja|zh)"))' voices.json
 echo "Start to Download Models:"
 # -r 防止反斜杠转义
@@ -22,3 +22,4 @@ while read -r line || [ -n "$line" ]; do
     echo "quality: $quality"
     opengate-download-models --short-lang "$lang" --lang "$locale" --name "$voice" --size "$quality"
 done < $1
+echo "----------------------------------------"
