@@ -27,8 +27,8 @@ jobs:
           docker:
             - 'Dockerfile'
           #   - 'requirements.txt'
-          # test:
-          #   - 'test.sh'
+          test:
+            - 'test.sh'
           #   - 'buzzheavier.py'
           #   - 'scanner.py'
           action:
