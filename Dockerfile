@@ -36,7 +36,7 @@ RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y && \
 # ==============================================================================
 FROM ghcr.io/void-linux/void-glibc:20261001r1 AS runner
 
-RUN xbps-install -Suy git bash libxcb libglvnd glib libflac openssl jq && \
+RUN xbps-install -Suy git bash libxcb libglvnd glib libflac openssl jq curl && \
     xbps-remove -Oo
 
 COPY --from=builder /usr/local/bin/opengate /usr/local/bin/opengate
