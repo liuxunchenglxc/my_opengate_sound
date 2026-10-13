@@ -33,6 +33,7 @@ jobs:
           #   - 'scanner.py'
           action:
             - '.github/workflows/run.yml'
+  # JOB to build and push Docker image
   build-and-push:
     needs: changes
     if: ${{ needs.changes.outputs.docker == 'true' }}
@@ -67,31 +68,32 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-  # test:
-  #   runs-on: ubuntu-latest
-  #   needs: [changes, build-and-push]
-  #   if: |
-  #     always() && 
-  #     (
-  #       needs.build-and-push.result == 'success' ||
-  #       ((needs.changes.outputs.test == 'true' || needs.changes.outputs.action == 'true') && needs.build-and-push.result == 'skipped')
-  #     )
+  # JOB to run test script
+  test:
+    runs-on: ubuntu-latest
+    needs: [changes, build-and-push]
+    if: |
+      always() && 
+      (
+        needs.build-and-push.result == 'success' ||
+        ((needs.changes.outputs.test == 'true' || needs.changes.outputs.action == 'true') && needs.build-and-push.result == 'skipped')
+      )
 
-  #   container:
-  #     image: ghcr.io/liuxunchenglxc/my_pymupdf_end2end:latest
-  #     options: --ipc=host
+    container:
+      image: ghcr.io/liuxunchenglxc/my_pymupdf_end2end:latest
+      options: --ipc=host
 
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@v7
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
 
-  #     - name: Df
-  #       run: |
-  #         df -h || true
+      - name: Df
+        run: |
+          df -h || true
 
-  #     - name: Run test script
-  #       run: |
-  #         bash test.sh "${{ secrets.BUZZHEAVIER_ID }}" "13n9a1y85c2x"
+      - name: Run test script
+        run: |
+          bash test.sh
 
   # run:
   #   runs-on: ubuntu-latest
