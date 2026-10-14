@@ -36,7 +36,7 @@ RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y && \
 # ==============================================================================
 FROM ghcr.io/void-linux/void-glibc:20261001r1 AS runner
 
-RUN xbps-install -Suy git bash libxcb libglvnd glib libflac openssl jq curl && \
+RUN xbps-install -Suy git bash libflac openssl jq curl uv && \
     xbps-remove -Oo
 
 COPY --from=builder /usr/local/bin/opengate /usr/local/bin/opengate
@@ -51,5 +51,8 @@ RUN ln -s /opt/piper/piper /usr/local/bin/piper && \
     chmod +x /usr/local/bin/piper
 
 ENV LD_LIBRARY_PATH=/opt/piper:$LD_LIBRARY_PATH
+
+COPY requirements.txt .
+RUN uv pip install --system --break-system-packages --no-cache-dir -r requirements.txt
 
 WORKDIR /workspace

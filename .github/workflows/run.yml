@@ -100,27 +100,27 @@ jobs:
         run: |
           bash test.sh
 
-  # run:
-  #   runs-on: ubuntu-latest
-  #   # 保证一定有 Docker 镜像可用
-  #   needs: build-and-push
-  #   if: |
-  #     always() && 
-  #     (needs.build-and-push.result == 'success' || needs.build-and-push.result == 'skipped')
+  run:
+    runs-on: ubuntu-latest
+    # 保证一定有 Docker 镜像可用
+    needs: build-and-push
+    if: |
+      always() && 
+      (needs.build-and-push.result == 'success' || needs.build-and-push.result == 'skipped')
 
-  #   container:
-  #     image: ghcr.io/liuxunchenglxc/my_opengate_sound:latest
-  #     options: --ipc=host
+    container:
+      image: ghcr.io/liuxunchenglxc/my_opengate_sound:latest
+      options: --ipc=host
 
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@v7
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
 
-  #     - name: Df
-  #       run: |
-  #         df -h || true
+      - name: Df
+        run: |
+          df -h || true
 
-  #     - name: Run script
-  #       run: |
-  #         python -u pdf2md.py "${{ secrets.BUZZHEAVIER_ID }}"
+      - name: Run script
+        run: |
+          python -u run.py "${{ secrets.BUZZHEAVIER_ID }}"
 
